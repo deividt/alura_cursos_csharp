@@ -40,8 +40,9 @@ namespace Alura.LeilaoOnline.Core
         {
             // Ganhador é o último lance
             this.Ganhador = Lances
+                .DefaultIfEmpty(new Lance(null, 0))
                 .OrderBy(x => x.Valor)
-                .Last();
+                .LastOrDefault();
         }
         #endregion
     }
