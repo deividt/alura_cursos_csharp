@@ -14,7 +14,7 @@
             // Arranje
             Leilao leilao = new Leilao("Van Gogh");
             var fulano = new Interessada("Fulano", leilao);
-
+            leilao.IniciaPregao();
 
             foreach (double valor in ofertas)
             {

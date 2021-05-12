@@ -8,6 +8,7 @@ namespace Alura.LeilaoOnline.Core
         #region Enumeradores
         public enum EstadoLeilao
         {
+            LeilaoAntesPregao,
             LeilaoEmAndamento,
             LeilaoFinalizado
         }
@@ -49,7 +50,7 @@ namespace Alura.LeilaoOnline.Core
 
         public void IniciaPregao()
         {
-
+            this.Estado = EstadoLeilao.LeilaoEmAndamento;
         }
 
         public void TerminaPregao()
