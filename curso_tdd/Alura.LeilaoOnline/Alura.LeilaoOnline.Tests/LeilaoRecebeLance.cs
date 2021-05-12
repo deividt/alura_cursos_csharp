@@ -4,7 +4,7 @@
     using Alura.LeilaoOnline.Core;
     using Xunit;
 
-    public class LeilaoRecebeOferta
+    public class LeilaoRecebeLance
     {
         [Theory]
         [InlineData(4, new double[] { 100, 1200, 1400, 1300 })]
