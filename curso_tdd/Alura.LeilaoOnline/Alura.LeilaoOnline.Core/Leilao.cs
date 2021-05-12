@@ -5,12 +5,22 @@ namespace Alura.LeilaoOnline.Core
 {
     public class Leilao
     {
+        #region Enumeradores
+        public enum EstadoLeilao
+        {
+            LeilaoEmAndamento,
+            LeilaoFinalizado
+        }
+        #endregion
+
         #region Campos
         private IList<Lance> _lances;
         #endregion
 
         #region Propriedades
         public IEnumerable<Lance> Lances => _lances;
+
+        public EstadoLeilao Estado { get; private set; }
 
         public string Peca { get; }
 
@@ -22,12 +32,18 @@ namespace Alura.LeilaoOnline.Core
         {
             Peca = peca;
             _lances = new List<Lance>();
+            this.Estado = EstadoLeilao.LeilaoEmAndamento;
         }
         #endregion
 
         #region Métodos
         public void RecebeLance(Interessada cliente, double valor)
         {
+            if (this.Estado == EstadoLeilao.LeilaoFinalizado)
+            {
+                return;
+            }
+
             _lances.Add(new Lance(cliente, valor));
         }
 
@@ -43,6 +59,8 @@ namespace Alura.LeilaoOnline.Core
                 .DefaultIfEmpty(new Lance(null, 0))
                 .OrderBy(x => x.Valor)
                 .LastOrDefault();
+
+            this.Estado = EstadoLeilao.LeilaoFinalizado;
         }
         #endregion
     }
