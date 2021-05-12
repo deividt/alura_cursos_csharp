@@ -6,22 +6,28 @@
 
     public class LeilaoRecebeOferta
     {
-        [Fact]
-        public void NaoPermiteNovosLancesDadoLeilaoFinalizado()
+        [Theory]
+        [InlineData(4, new double[] { 100, 1200, 1400, 1300 })]
+        [InlineData(2, new double[] { 800, 900 })]
+        public void NaoPermiteNovosLancesDadoLeilaoFinalizado(int quantidadeEsperada, double[] ofertas)
         {
             // Arranje
             Leilao leilao = new Leilao("Van Gogh");
             var fulano = new Interessada("Fulano", leilao);
-            leilao.RecebeLance(fulano, 800);
-            leilao.RecebeLance(fulano, 900);
+
+
+            foreach (double valor in ofertas)
+            {
+                leilao.RecebeLance(fulano, valor);
+            }
+
             leilao.TerminaPregao();
 
             // Act
             leilao.RecebeLance(fulano, 1000);
 
             // Assert
-            int valorEsperado = 2;
-            Assert.Equal(valorEsperado, leilao.Lances.Count());
+            Assert.Equal(quantidadeEsperada, leilao.Lances.Count());
         }
     }
 }
