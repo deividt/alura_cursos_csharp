@@ -16,11 +16,12 @@
             // Arranje
             Leilao leilao = new Leilao("Van Gogh");
             var fulano = new Interessada("Fulano", leilao);
+            var maria = new Interessada("Maria", leilao);
             leilao.IniciaPregao();
 
-            foreach (double valor in ofertas)
+            for (int i = 0; i < ofertas.Length; i++)
             {
-                leilao.RecebeLance(fulano, valor);
+                leilao.RecebeLance(i % 2 == 0 ? fulano : maria, ofertas[i]);
             }
 
             // Act

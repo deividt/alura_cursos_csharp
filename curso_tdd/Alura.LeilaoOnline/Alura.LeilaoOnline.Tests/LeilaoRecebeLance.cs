@@ -6,6 +6,26 @@
 
     public class LeilaoRecebeLance
     {
+        [Fact]
+        public void NaoAceitaProximoLanceDadoMesmoClienteRealizouUltimoLance()
+        {
+            // Arranje
+            Leilao leilao = new Leilao("Van Gogh");
+            var fulano = new Interessada("Fulano", leilao);
+            leilao.IniciaPregao();
+            leilao.RecebeLance(fulano, 800);
+
+
+            // Act
+            leilao.RecebeLance(fulano, 1000);
+
+
+            // Assert
+            int quantidadeEsperada = 1;
+            int quantidadeObtida = leilao.Lances.Count();
+            Assert.Equal(quantidadeEsperada, quantidadeObtida);
+        }
+
         [Theory]
         [InlineData(4, new double[] { 100, 1200, 1400, 1300 })]
         [InlineData(2, new double[] { 800, 900 })]
@@ -14,11 +34,12 @@
             // Arranje
             Leilao leilao = new Leilao("Van Gogh");
             var fulano = new Interessada("Fulano", leilao);
+            var maria = new Interessada("Maria", leilao);
             leilao.IniciaPregao();
 
-            foreach (double valor in ofertas)
+            for (int i = 0; i < ofertas.Length; i++)
             {
-                leilao.RecebeLance(fulano, valor);
+                leilao.RecebeLance(i % 2 == 0 ? fulano : maria, ofertas[i]);
             }
 
             leilao.TerminaPregao();

@@ -16,6 +16,8 @@ namespace Alura.LeilaoOnline.Core
 
         #region Campos
         private IList<Lance> _lances;
+
+        private Interessada _ultimoCliente;
         #endregion
 
         #region Propriedades
@@ -38,14 +40,16 @@ namespace Alura.LeilaoOnline.Core
         #endregion
 
         #region Métodos
+        #region Públicos
         public void RecebeLance(Interessada cliente, double valor)
         {
-            if (this.Estado == EstadoLeilao.LeilaoFinalizado)
+            if (!NovoLanceEhAceito(cliente))
             {
                 return;
             }
 
             _lances.Add(new Lance(cliente, valor));
+            _ultimoCliente = cliente;
         }
 
         public void IniciaPregao()
@@ -63,6 +67,14 @@ namespace Alura.LeilaoOnline.Core
 
             this.Estado = EstadoLeilao.LeilaoFinalizado;
         }
+        #endregion
+
+        #region Privados
+        private bool NovoLanceEhAceito(Interessada cliente)
+        {
+            return this.Estado == EstadoLeilao.LeilaoEmAndamento && cliente != _ultimoCliente;
+        }
+        #endregion
         #endregion
     }
 }
