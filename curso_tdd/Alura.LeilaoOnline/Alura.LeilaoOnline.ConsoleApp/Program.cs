@@ -1,8 +1,8 @@
-﻿using System;
-using Alura.LeilaoOnline.Core;
-
-namespace Alura.LeilaoOnline.ConsoleApp
+﻿namespace Alura.LeilaoOnline.ConsoleApp
 {
+    using System;
+    using Alura.LeilaoOnline.Core;
+
     class Program
     {
         private static void Verifica(double esperado, double obtido)

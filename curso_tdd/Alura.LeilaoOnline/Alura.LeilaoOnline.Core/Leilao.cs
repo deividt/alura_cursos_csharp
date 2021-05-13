@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace Alura.LeilaoOnline.Core
+﻿namespace Alura.LeilaoOnline.Core
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class Leilao
     {
         #region Enumeradores
@@ -35,7 +36,7 @@ namespace Alura.LeilaoOnline.Core
         {
             Peca = peca;
             _lances = new List<Lance>();
-            this.Estado = EstadoLeilao.LeilaoEmAndamento;
+            this.Estado = EstadoLeilao.LeilaoAntesPregao;
         }
         #endregion
 
@@ -59,6 +60,11 @@ namespace Alura.LeilaoOnline.Core
 
         public void TerminaPregao()
         {
+            if (this.Estado != EstadoLeilao.LeilaoEmAndamento)
+            {
+                throw new InvalidOperationException("Não é possível terminar o pregão sem que ele tenha começado. Para isso, utilize o método InicialPregao().");
+            }
+
             // Ganhador é o último lance
             this.Ganhador = Lances
                 .DefaultIfEmpty(new Lance(null, 0))

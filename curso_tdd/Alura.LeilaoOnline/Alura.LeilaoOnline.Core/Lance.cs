@@ -1,5 +1,4 @@
-﻿
-namespace Alura.LeilaoOnline.Core
+﻿namespace Alura.LeilaoOnline.Core
 {
     public class Lance
     {
