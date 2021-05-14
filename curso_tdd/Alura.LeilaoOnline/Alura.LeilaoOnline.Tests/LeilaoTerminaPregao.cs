@@ -11,7 +11,7 @@
         public void RetornaValorSuperiorMaisProximoDadoLeilaoNessaModalidade(double valorEsperado, double valorDestino, double[] ofertas)
         {
             // Arranje
-            Leilao leilao = new Leilao("Van Gogh");
+            Leilao leilao = new Leilao("Van Gogh", valorDestino);
             var fulano = new Interessada("Fulano", leilao);
             var maria = new Interessada("Maria", leilao);
             leilao.IniciaPregao();
