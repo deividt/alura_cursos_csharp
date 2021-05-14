@@ -6,6 +6,29 @@
 
     public class LeilaoTerminaPregao
     {
+        [Theory]
+        [InlineData(1250, 1200, new double[] { 800, 1200, 1150, 1400, 1250 })]
+        public void RetornaValorSuperiorMaisProximoDadoLeilaoNessaModalidade(double valorEsperado, double valorDestino, double[] ofertas)
+        {
+            // Arranje
+            Leilao leilao = new Leilao("Van Gogh");
+            var fulano = new Interessada("Fulano", leilao);
+            var maria = new Interessada("Maria", leilao);
+            leilao.IniciaPregao();
+
+            for (int i = 0; i < ofertas.Length; i++)
+            {
+                leilao.RecebeLance(i % 2 == 0 ? fulano : maria, ofertas[i]);
+            }
+
+            // Act
+            leilao.TerminaPregao();
+
+            // Assert
+            double valorObtido = leilao.Ganhador.Valor;
+            Assert.Equal(valorEsperado, valorObtido);
+        }
+
 
         [Theory]
         [InlineData(1200, new double[] { 800, 900, 1000, 1200 })]
