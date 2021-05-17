@@ -62,7 +62,8 @@
         public void LancaInvalidOperationExceptionDadoPregaoNaoIniciado()
         {
             // Arranje
-            Leilao leilao = new Leilao("Van Gogh");
+            IModalidadeAvaliacao modalidade = new MaiorValor();
+            Leilao leilao = new Leilao("Van Gogh", modalidade);
 
             // Assert
             InvalidOperationException excecaoObtida = Assert.Throws<InvalidOperationException>(
@@ -77,7 +78,8 @@
         public void RetornaZeroDadoLeilaoSemLances()
         {
             // Arranje
-            Leilao leilao = new Leilao("Van Gogh");
+            IModalidadeAvaliacao modalidade = new MaiorValor();
+            Leilao leilao = new Leilao("Van Gogh", modalidade);
             leilao.IniciaPregao();
 
             // Act

@@ -10,7 +10,8 @@
         public void NaoAceitaProximoLanceDadoMesmoClienteRealizouUltimoLance()
         {
             // Arranje
-            Leilao leilao = new Leilao("Van Gogh");
+            IModalidadeAvaliacao modalidade = new MaiorValor();
+            Leilao leilao = new Leilao("Van Gogh", modalidade);
             var fulano = new Interessada("Fulano", leilao);
             leilao.IniciaPregao();
             leilao.RecebeLance(fulano, 800);
@@ -32,7 +33,8 @@
         public void NaoPermiteNovosLancesDadoLeilaoFinalizado(int quantidadeEsperada, double[] ofertas)
         {
             // Arranje
-            Leilao leilao = new Leilao("Van Gogh");
+            IModalidadeAvaliacao modalidade = new MaiorValor();
+            Leilao leilao = new Leilao("Van Gogh", modalidade);
             var fulano = new Interessada("Fulano", leilao);
             var maria = new Interessada("Maria", leilao);
             leilao.IniciaPregao();

@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
 
     public class Leilao
     {
@@ -19,6 +18,8 @@
         private IList<Lance> _lances;
 
         private Interessada _ultimoCliente;
+
+        private IModalidadeAvaliacao _avaliador;
         #endregion
 
         #region Propriedades
@@ -29,17 +30,15 @@
         public string Peca { get; }
 
         public Lance Ganhador { get; private set; }
-
-        public double ValorDestino { get; private set; }
         #endregion
 
         #region Construtor
-        public Leilao(string peca, double valorDestino = 0)
+        public Leilao(string peca, IModalidadeAvaliacao avaliador)
         {
             Peca = peca;
             _lances = new List<Lance>();
             this.Estado = EstadoLeilao.LeilaoAntesPregao;
-            this.ValorDestino = valorDestino;
+            _avaliador = avaliador;
         }
         #endregion
 
@@ -68,23 +67,7 @@
                 throw new InvalidOperationException("Não é possível terminar o pregão sem que ele tenha começado. Para isso, utilize o método InicialPregao().");
             }
 
-            // Ganhador é oferta superior mais próxima
-            if (this.ValorDestino > 0)
-            {
-                this.Ganhador = Lances
-                    .DefaultIfEmpty(new Lance(null, 0))
-                    .Where(x => x.Valor > this.ValorDestino)
-                    .OrderBy(x => x.Valor)
-                    .FirstOrDefault();
-                return;
-            }
-
-            // Ganhador é o último lance
-            this.Ganhador = Lances
-                .DefaultIfEmpty(new Lance(null, 0))
-                .OrderBy(x => x.Valor)
-                .LastOrDefault();
-
+            this.Ganhador = _avaliador.Avalia(this);
             this.Estado = EstadoLeilao.LeilaoFinalizado;
         }
         #endregion

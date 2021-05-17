@@ -25,7 +25,8 @@
         private static void LeilaoComVariosLances()
         {
             // Arranje
-            Leilao leilao = new Leilao("Van Gogh");
+            IModalidadeAvaliacao modalidade = new MaiorValor();
+            Leilao leilao = new Leilao("Van Gogh", modalidade);
             var fulano = new Interessada("Fulano", leilao);
             var maria = new Interessada("Maria", leilao);
 
@@ -46,7 +47,8 @@
         static void LeilaoComApenasUmLance()
         {
             // Arranje
-            Leilao leilao = new Leilao("Van Gogh");
+            IModalidadeAvaliacao modalidade = new MaiorValor();
+            Leilao leilao = new Leilao("Van Gogh", modalidade);
             var fulano = new Interessada("Fulano", leilao);
 
             leilao.RecebeLance(fulano, 800);
