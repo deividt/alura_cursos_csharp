@@ -1,12 +1,13 @@
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Alura.LeilaoOnline.WebApp.Dados;
-using Alura.LeilaoOnline.WebApp.Models;
-using System;
-
 namespace Alura.LeilaoOnline.WebApp.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Alura.LeilaoOnline.WebApp.Dados;
+    using Alura.LeilaoOnline.WebApp.Models;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+
     public class LeilaoController : Controller
     {
 
@@ -22,12 +23,12 @@ namespace Alura.LeilaoOnline.WebApp.Controllers
             var leiloes = _context.Leiloes
                 .Include(l => l.Categoria);
             return View(leiloes);
-        } 
+        }
 
         [HttpGet]
         public IActionResult Insert()
         {
-            ViewData["Categorias"] = _context.Categorias.ToList();
+            ViewData["Categorias"] = this.BuscarCategorias();
             ViewData["Operacao"] = "Inclusão";
             return View("Form");
         }
@@ -41,7 +42,7 @@ namespace Alura.LeilaoOnline.WebApp.Controllers
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewData["Categorias"] = _context.Categorias.ToList();
+            ViewData["Categorias"] = this.BuscarCategorias();
             ViewData["Operacao"] = "Inclusão";
             return View("Form", model);
         }
@@ -49,9 +50,9 @@ namespace Alura.LeilaoOnline.WebApp.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            ViewData["Categorias"] = _context.Categorias.ToList();
+            ViewData["Categorias"] = this.BuscarCategorias();
             ViewData["Operacao"] = "Edição";
-            var leilao = _context.Leiloes.Find(id);
+            var leilao = this.BuscarPorId(id);
             if (leilao == null) return NotFound();
             return View("Form", leilao);
         }
@@ -65,7 +66,7 @@ namespace Alura.LeilaoOnline.WebApp.Controllers
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewData["Categorias"] = _context.Categorias.ToList();
+            ViewData["Categorias"] = this.BuscarCategorias();
             ViewData["Operacao"] = "Edição";
             return View("Form", model);
         }
@@ -73,7 +74,7 @@ namespace Alura.LeilaoOnline.WebApp.Controllers
         [HttpPost]
         public IActionResult Inicia(int id)
         {
-            var leilao = _context.Leiloes.Find(id);
+            var leilao = this.BuscarPorId(id);
             if (leilao == null) return NotFound();
             if (leilao.Situacao != SituacaoLeilao.Rascunho) return StatusCode(405);
             leilao.Situacao = SituacaoLeilao.Pregao;
@@ -86,7 +87,7 @@ namespace Alura.LeilaoOnline.WebApp.Controllers
         [HttpPost]
         public IActionResult Finaliza(int id)
         {
-            var leilao = _context.Leiloes.Find(id);
+            var leilao = this.BuscarPorId(id);
             if (leilao == null) return NotFound();
             if (leilao.Situacao != SituacaoLeilao.Pregao) return StatusCode(405);
             leilao.Situacao = SituacaoLeilao.Finalizado;
@@ -99,7 +100,7 @@ namespace Alura.LeilaoOnline.WebApp.Controllers
         [HttpPost]
         public IActionResult Remove(int id)
         {
-            var leilao = _context.Leiloes.Find(id);
+            var leilao = this.BuscarPorId(id);
             if (leilao == null) return NotFound();
             if (leilao.Situacao == SituacaoLeilao.Pregao) return StatusCode(405);
             _context.Leiloes.Remove(leilao);
@@ -113,12 +114,22 @@ namespace Alura.LeilaoOnline.WebApp.Controllers
             ViewData["termo"] = termo;
             var leiloes = _context.Leiloes
                 .Include(l => l.Categoria)
-                .Where(l => string.IsNullOrWhiteSpace(termo) || 
-                    l.Titulo.ToUpper().Contains(termo.ToUpper()) || 
+                .Where(l => string.IsNullOrWhiteSpace(termo) ||
+                    l.Titulo.ToUpper().Contains(termo.ToUpper()) ||
                     l.Descricao.ToUpper().Contains(termo.ToUpper()) ||
                     l.Categoria.Descricao.ToUpper().Contains(termo.ToUpper())
                 );
             return View("Index", leiloes);
+        }
+
+        private IEnumerable<Categoria> BuscarCategorias()
+        {
+            return _context.Categorias.ToList();
+        }
+
+        private Leilao BuscarPorId(int id)
+        {
+            return _context.Leiloes.First(l => l.Id == id);
         }
     }
 }
