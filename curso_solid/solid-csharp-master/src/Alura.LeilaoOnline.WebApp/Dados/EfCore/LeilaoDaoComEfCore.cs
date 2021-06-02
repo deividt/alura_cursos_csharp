@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Alura.LeilaoOnline.WebApp.Interfaces;
+﻿using System.Collections.Generic;
 using Alura.LeilaoOnline.WebApp.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,9 +8,9 @@ namespace Alura.LeilaoOnline.WebApp.Dados.EfCore
     {
         AppDbContext _context;
 
-        public LeilaoDaoComEfCore()
+        public LeilaoDaoComEfCore(AppDbContext context)
         {
-            _context = new AppDbContext();
+            _context = context;
         }
 
         public Leilao BuscarLeilaoPorId(int id)
