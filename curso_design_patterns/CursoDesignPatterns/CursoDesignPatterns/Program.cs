@@ -8,7 +8,9 @@ namespace CursoDesignPatterns
         {
             // StrategyPattern();
 
-            ChainOfResponsibilityPattern();
+            //ChainOfResponsibilityPattern();
+
+            TemplateMethodPattern();
 
             Console.WriteLine("Press any key to close!");
             Console.ReadKey();
@@ -41,6 +43,20 @@ namespace CursoDesignPatterns
 
             double desconto = calculadorDeDescontos.Calcula(orcamento);
             Console.WriteLine(desconto);
+        }
+        
+        private static void TemplateMethodPattern()
+        {
+            IImposto ikcv = new IKCV();
+            IImposto icpp = new ICPP();
+
+            Orcamento orcamento = new Orcamento(1200.0);
+
+            CalculadorDeImpostos calculador = new CalculadorDeImpostos();
+
+            calculador.RealizaCalculo(orcamento, ikcv);
+            calculador.RealizaCalculo(orcamento, icpp);
+            
         }
     }
 }
