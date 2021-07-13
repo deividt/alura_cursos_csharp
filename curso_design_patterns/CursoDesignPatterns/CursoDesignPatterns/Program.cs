@@ -10,16 +10,18 @@ namespace CursoDesignPatterns
 
             //ChainOfResponsibilityPattern();
 
-            TemplateMethodPattern();
+            //TemplateMethodPattern();
+
+            DecoratorPattern();
 
             Console.WriteLine("Press any key to close!");
             Console.ReadKey();
         }
-
-        public static void StrategyPattern()
+        
+        private static void StrategyPattern()
         {
-            IImposto iss = new ISS();
-            IImposto icms = new ICMS();
+            Imposto iss = new ISS();
+            Imposto icms = new ICMS();
 
             Orcamento orcamento = new Orcamento(500.0);
 
@@ -29,7 +31,7 @@ namespace CursoDesignPatterns
             calculador.RealizaCalculo(orcamento, icms);
         }
 
-        public static void ChainOfResponsibilityPattern()
+        private static void ChainOfResponsibilityPattern()
         {
             CalculadorDeDescontos calculadorDeDescontos = new CalculadorDeDescontos();
 
@@ -47,8 +49,8 @@ namespace CursoDesignPatterns
         
         private static void TemplateMethodPattern()
         {
-            IImposto ikcv = new IKCV();
-            IImposto icpp = new ICPP();
+            Imposto ikcv = new IKCV();
+            Imposto icpp = new ICPP();
 
             Orcamento orcamento = new Orcamento(1200.0);
 
@@ -57,6 +59,16 @@ namespace CursoDesignPatterns
             calculador.RealizaCalculo(orcamento, ikcv);
             calculador.RealizaCalculo(orcamento, icpp);
             
+        }
+        
+        private static void DecoratorPattern()
+        {
+            Imposto iss = new ISS(new ICMS(new IKCV()));
+
+            Orcamento orcamento = new Orcamento(500.0);
+
+            double valor = iss.Calcula(orcamento);
+            Console.WriteLine(valor);
         }
     }
 }

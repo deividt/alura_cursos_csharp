@@ -1,8 +1,16 @@
 namespace CursoDesignPatterns
 {
-    public abstract class TemplateDeImpostoCondicional:IImposto
+    public abstract class TemplateDeImpostoCondicional:Imposto
     {
-        public double Calcula(Orcamento orcamento)
+        protected TemplateDeImpostoCondicional(Imposto outroImposto) : base(outroImposto)
+        {
+        }
+        
+        protected TemplateDeImpostoCondicional() : base()
+        {
+        }
+
+        public override double Calcula(Orcamento orcamento)
         {
             if (DeveUsarMaximaTaxacao(orcamento))
             {
