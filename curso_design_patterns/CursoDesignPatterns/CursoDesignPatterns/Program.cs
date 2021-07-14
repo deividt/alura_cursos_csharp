@@ -12,8 +12,10 @@ namespace CursoDesignPatterns
 
             //TemplateMethodPattern();
 
-            DecoratorPattern();
+            //DecoratorPattern();
 
+            StatePattern();
+            
             Console.WriteLine("Press any key to close!");
             Console.ReadKey();
         }
@@ -69,6 +71,26 @@ namespace CursoDesignPatterns
 
             double valor = iss.Calcula(orcamento);
             Console.WriteLine(valor);
+        }
+
+        private static void StatePattern()
+        {
+            Orcamento reforma = new Orcamento(500);
+            
+            Console.WriteLine(reforma.Valor);
+            
+            reforma.AplicaDescontoExtra();
+            Console.WriteLine(reforma.Valor);
+            
+            reforma.Aprova();
+            
+            reforma.AplicaDescontoExtra();
+            Console.WriteLine(reforma.Valor);
+
+            reforma.Finaliza();
+            
+            // Deve retornar exception
+            // reforma.AplicaDescontoExtra();
         }
     }
 }
