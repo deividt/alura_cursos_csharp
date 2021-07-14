@@ -1,11 +1,11 @@
 namespace CursoDesignPatterns
 {
-    public abstract class TemplateDeImpostoCondicional:Imposto
+    public abstract class TemplateDeImpostoCondicional : Imposto
     {
         protected TemplateDeImpostoCondicional(Imposto outroImposto) : base(outroImposto)
         {
         }
-        
+
         protected TemplateDeImpostoCondicional() : base()
         {
         }

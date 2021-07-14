@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace CursoDesignPatterns
 {
@@ -14,12 +16,14 @@ namespace CursoDesignPatterns
 
             //DecoratorPattern();
 
-            StatePattern();
-            
+            //StatePattern();
+
+            BuilderPattern();
+
             Console.WriteLine("Press any key to close!");
             Console.ReadKey();
         }
-        
+
         private static void StrategyPattern()
         {
             Imposto iss = new ISS();
@@ -48,7 +52,7 @@ namespace CursoDesignPatterns
             double desconto = calculadorDeDescontos.Calcula(orcamento);
             Console.WriteLine(desconto);
         }
-        
+
         private static void TemplateMethodPattern()
         {
             Imposto ikcv = new IKCV();
@@ -60,9 +64,8 @@ namespace CursoDesignPatterns
 
             calculador.RealizaCalculo(orcamento, ikcv);
             calculador.RealizaCalculo(orcamento, icpp);
-            
         }
-        
+
         private static void DecoratorPattern()
         {
             Imposto iss = new ISS(new ICMS(new IKCV()));
@@ -76,21 +79,38 @@ namespace CursoDesignPatterns
         private static void StatePattern()
         {
             Orcamento reforma = new Orcamento(500);
-            
+
             Console.WriteLine(reforma.Valor);
-            
+
             reforma.AplicaDescontoExtra();
             Console.WriteLine(reforma.Valor);
-            
+
             reforma.Aprova();
-            
+
             reforma.AplicaDescontoExtra();
             Console.WriteLine(reforma.Valor);
 
             reforma.Finaliza();
-            
+
             // Deve retornar exception
             // reforma.AplicaDescontoExtra();
+        }
+        
+        private static void BuilderPattern()
+        {
+            NotaFiscalBuilder criador = new NotaFiscalBuilder();
+            criador
+                .ParaEmpresa("Empresa Teste")
+                .ComCnpj("3.456.789/0001-12")
+                .ComItem(new ItemDaNota("item 1", 100.0))
+                .ComItem(new ItemDaNota("item 2", 200.0))
+                .NaDataAtual()
+                .ComObservacoes("Obs qualquer");
+
+            NotaFiscal nf = criador.Constroi();
+
+            Console.WriteLine(nf.ValorBruto);
+            Console.WriteLine(nf.Impostos);
         }
     }
 }
