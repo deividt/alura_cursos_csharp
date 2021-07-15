@@ -9,12 +9,17 @@ namespace DesignPatterns2
     {
         static void Main(string[] args)
         {
-            IDbConnection conexao = new ConnectionFactory().GetConnection();
-            IDbCommand comando = conexao.CreateCommand();
-            comando.CommandText = "select * from tabela";
+            // FactoryPattern();
             
             Console.WriteLine("Press any key to exit!");
             Console.ReadKey();
+        }
+
+        private static void FactoryPattern()
+        {
+            IDbConnection conexao = new ConnectionFactory().GetConnection();
+            IDbCommand comando = conexao.CreateCommand();
+            comando.CommandText = "select * from tabela";
         }
     }
 }
