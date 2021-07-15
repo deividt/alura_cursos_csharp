@@ -13,7 +13,7 @@ namespace DesignPatterns2
         {
             // FactoryPattern();
 
-            FlyweightPattern();
+            // FlyweightPattern();
 
             Console.WriteLine("Press any key to exit!");
             Console.ReadKey();
