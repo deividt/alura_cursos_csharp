@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using DesignPatterns2.Cap1;
 using DesignPatterns2.Cap2;
+using DesignPatterns2.Cap3;
 
 namespace DesignPatterns2
 {
@@ -14,6 +15,8 @@ namespace DesignPatterns2
             // FactoryPattern();
 
             // FlyweightPattern();
+
+            MementoPattern();
 
             Console.WriteLine("Press any key to exit!");
             Console.ReadKey();
@@ -41,6 +44,23 @@ namespace DesignPatterns2
 
             Piano piano = new Piano();
             piano.Toca(musica);
+        }
+        
+        private static void MementoPattern()
+        {
+            Historico historico = new Historico();
+
+            Contrato c = new Contrato(DateTime.Now, "Eu",TipoContrato.Novo);
+            historico.Adiciona(c.SalvaEstado());
+            
+            c.Avanca();
+            historico.Adiciona(c.SalvaEstado());
+            
+            c.Avanca();
+            historico.Adiciona(c.SalvaEstado());
+            
+            //Console.WriteLine(c.Tipo);
+            Console.WriteLine(historico.Pega(2).Contrato.Tipo);
         }
     }
 }
