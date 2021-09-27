@@ -8,6 +8,7 @@ using DesignPatterns2.Cap2;
 using DesignPatterns2.Cap3;
 using DesignPatterns2.Cap4;
 using DesignPatterns2.Cap5;
+using DesignPatterns2.Cap6;
 
 namespace DesignPatterns2
 {
@@ -23,10 +24,25 @@ namespace DesignPatterns2
 
             // Interpreter();
 
-            Visitor();
+            //Visitor();
+
+            Bridges();
 
             Console.WriteLine("Press any key to exit!");
             Console.ReadKey();
+        }
+
+        private static void Bridges()
+        {
+            IMensagem mensagem = new MensagemAdministrativa( "Deividt");
+            IEnviador enviador = new EnviaPorEmail();
+            mensagem.Enviador = enviador;
+            mensagem.Envia();
+            
+            IMensagem mensagem2 = new MensagemCliente( "Deividt");
+            IEnviador enviador2 = new EnviaPorSms();
+            mensagem2.Enviador = enviador2;
+            mensagem2.Envia();
         }
 
         private static void Visitor()
