@@ -9,6 +9,7 @@ using DesignPatterns2.Cap3;
 using DesignPatterns2.Cap4;
 using DesignPatterns2.Cap5;
 using DesignPatterns2.Cap6;
+using DesignPatterns2.Cap7;
 
 namespace DesignPatterns2
 {
@@ -26,10 +27,26 @@ namespace DesignPatterns2
 
             //Visitor();
 
-            Bridges();
+            //Bridges();
+
+            DifferentActionsWithCommand();
 
             Console.WriteLine("Press any key to exit!");
             Console.ReadKey();
+        }
+
+        private static void DifferentActionsWithCommand()
+        {
+            FilaDeTrabalho fila = new FilaDeTrabalho();
+            Pedido pedido1 = new Pedido("Deividt", 100);
+            Pedido pedido2 = new Pedido("Dani", 200);
+            fila.Adiciona(new PagaPedido(pedido1));
+            fila.Adiciona(new PagaPedido(pedido2));
+            
+            fila.Adiciona(new FinalizaPedido(pedido1));
+            fila.Adiciona(new FinalizaPedido(pedido2));
+            
+            fila.Processa();
         }
 
         private static void Bridges()
