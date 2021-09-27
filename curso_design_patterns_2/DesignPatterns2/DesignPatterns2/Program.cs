@@ -7,6 +7,7 @@ using DesignPatterns2.Cap1;
 using DesignPatterns2.Cap2;
 using DesignPatterns2.Cap3;
 using DesignPatterns2.Cap4;
+using DesignPatterns2.Cap5;
 
 namespace DesignPatterns2
 {
@@ -20,10 +21,26 @@ namespace DesignPatterns2
 
             //MementoPattern();
 
-            Interpreter();
+            // Interpreter();
+
+            Visitor();
 
             Console.WriteLine("Press any key to exit!");
             Console.ReadKey();
+        }
+
+        private static void Visitor()
+        {
+            // (1 + 10) + (20 - 10)
+            // + 1 100
+            IExpressao esquerda = new Soma(new Numero(1), new Numero(10));
+            IExpressao direita = new Subtracao(new Numero(20), new Numero(10));
+            IExpressao soma = new Soma(esquerda, direita);
+            Console.WriteLine(soma.Avalia());
+            
+            ImpressoraVisitor impressoraVisitor = new ImpressoraVisitor();
+            soma.Aceita(impressoraVisitor);
+            Console.WriteLine();
         }
 
         private static void Interpreter()
