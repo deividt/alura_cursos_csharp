@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq.Expressions;
+using System.Xml.Serialization;
 using DesignPatterns2.Cap1;
 using DesignPatterns2.Cap2;
 using DesignPatterns2.Cap3;
@@ -10,6 +12,7 @@ using DesignPatterns2.Cap4;
 using DesignPatterns2.Cap5;
 using DesignPatterns2.Cap6;
 using DesignPatterns2.Cap7;
+using DesignPatterns2.Cap8;
 
 namespace DesignPatterns2
 {
@@ -29,10 +32,24 @@ namespace DesignPatterns2
 
             //Bridges();
 
-            DifferentActionsWithCommand();
+            //DifferentActionsWithCommand();
+
+            Adapter();
 
             Console.WriteLine("Press any key to exit!");
             Console.ReadKey();
+        }
+
+        private static void Adapter()
+        {
+            Cliente cliente = new Cliente();
+            cliente.Nome = "Deividt";
+            cliente.Endereco = "Rua Jose Firmo Bernardi";
+            cliente.DataDeNascimento = DateTime.Now;
+
+            string xml = new GeradorDeXml().GeraXml(cliente);
+            
+            Console.WriteLine(xml);
         }
 
         private static void DifferentActionsWithCommand()
