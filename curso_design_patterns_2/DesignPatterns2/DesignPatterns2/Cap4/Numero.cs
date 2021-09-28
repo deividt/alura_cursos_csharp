@@ -1,17 +1,24 @@
+using DesignPatterns2.Cap5;
+
 namespace DesignPatterns2.Cap4
 {
     public class Numero : IExpressao
     {
-        private int numero;
+        public int Valor { get; private set; }
 
         public Numero(int numero)
         {
-            this.numero = numero;
+            this.Valor = numero;
         }
 
         public int Avalia()
         {
-            return this.numero;
+            return this.Valor;
+        }
+
+        public void Aceita(IVisitor impressoraVisitor)
+        {
+            impressoraVisitor.ImprimeNumero(this);
         }
     }
 }
