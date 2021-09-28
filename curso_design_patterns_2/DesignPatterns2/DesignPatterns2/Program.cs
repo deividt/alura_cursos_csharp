@@ -13,6 +13,7 @@ using DesignPatterns2.Cap5;
 using DesignPatterns2.Cap6;
 using DesignPatterns2.Cap7;
 using DesignPatterns2.Cap8;
+using DesignPatterns2.Cap9;
 
 namespace DesignPatterns2
 {
@@ -34,10 +35,23 @@ namespace DesignPatterns2
 
             //DifferentActionsWithCommand();
 
-            Adapter();
+            //Adapter();
+
+            FacadesSingleton();
 
             Console.WriteLine("Press any key to exit!");
             Console.ReadKey();
+        }
+
+        private static void FacadesSingleton()
+        {
+            string cpf = "1234";
+            EmpresaFacade facade = new EmpresaFacadeSingleton().Instancia;
+
+            Cliente cliente = facade.BuscaCliente(cpf);
+            Fatura fatura = facade.CriaFatura(cliente, 5000);
+            Cobranca cobranca = facade.GeraCobranca(TipoBoleto, fatura);
+            ContatoCliente contato = facade.FazContato(cliente, cobranca);
         }
 
         private static void Adapter()
