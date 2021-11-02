@@ -18,7 +18,7 @@ namespace Testes
             var comando = new CadastraTarefa("Estudar xUnit", new Categoria("Estudo"), new DateTime(2019, 12, 31));
 
             var options = new DbContextOptionsBuilder<DbTarefasContext>()
-                .UseInMemoryDatabase("DbTarefasContext")
+                .UseInMemoryDatabase("DbCadastrarTarefasContext")
                 .Options;
             var contexto = new DbTarefasContext(options);
             var repositorio = new RepositorioTarefa(contexto);
