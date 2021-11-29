@@ -25,6 +25,7 @@ namespace Testes
               .Options;
           var contexto = new DbTarefasContext(options);
           contexto.Categorias.Add(new Categoria(20, "Estudo"));
+          contexto.SaveChanges();
           
           var repo = new RepositorioTarefa(contexto);
 
