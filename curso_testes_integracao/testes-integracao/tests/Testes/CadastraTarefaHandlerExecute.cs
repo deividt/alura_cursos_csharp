@@ -59,6 +59,51 @@ namespace Testes
             Assert.False(resultado.IsSuccess);
         }
 
+        delegate void CapturaMensagemLog(
+            LogLevel logLevel,
+            EventId eventId,
+            object state,
+            Exception exception,
+            Func<object, Exception, string> function);
+
+        [Fact]
+        public void DadaTarefaComInfoValidasDeveLogar()
+        {
+            // Arrange
+            var tituloTarefaEsperado = "Usar Moq para aprofuncar conhecimento de API";
+            var comando = new CadastraTarefa(tituloTarefaEsperado, new Categoria("Estudo"), new DateTime(2019, 12, 31));
+
+            var mockLogger = new Mock<ILogger<CadastraTarefaHandler>>();
+            
+            LogLevel levelCapturado = LogLevel.Error;
+            string mensagemCapturada = String.Empty;
+            CapturaMensagemLog captura = (level, eventId, state, exception, func) =>
+            {
+                levelCapturado = level;
+                mensagemCapturada = func(state, exception);
+            };
+
+            mockLogger.Setup(l => 
+                l.Log(
+                    It.IsAny<LogLevel>(),
+                    It.IsAny<EventId>(), 
+                    It.IsAny<object>(), 
+                    It.IsAny<Exception>(), 
+                    It.IsAny<Func<object, Exception, string>>())
+                ).Callback(captura);
+            
+            var mock = new Mock<IRepositorioTarefas>();
+            
+            var handler = new CadastraTarefaHandler(mock.Object, mockLogger.Object);
+
+            // Act
+            handler.Execute(comando);
+
+            // Assert
+            Assert.Equal(LogLevel.Error, levelCapturado);
+            Assert.Contains(tituloTarefaEsperado, mensagemCapturada);
+        }
+
         [Fact]
         public void QuandoExceptionForLancadaDeveLogarAMensagemDaExcecao()
         {
